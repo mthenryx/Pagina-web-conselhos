@@ -1,0 +1,152 @@
+:root {
+    --color-1: #000000;
+    --color-2: #bc6c26;
+    --color-3: #8d8d8d;
+    --color-4: #00000066;
+    --color-5: #312721;
+    --color-6: #bc6c2680;
+    --color-7: #d0bead;
+    --color-8: #d9d9d9;
+    --color-9: #e5b14f;
+    --color-10: #fff9e9b3;
+    --color-11: #fffdf6;
+}
+
+body {
+    background-color: var(--color-10);
+}
+
+/* Header */
+
+header {
+    border-bottom: 1px solid #c4c4c4;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.name-web {
+    height: auto;
+    display: flex;
+    gap: 5px;
+    align-items: flex-end;
+}
+
+h3 {
+    font-family: "Inria Serif", sans-serif;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.name-web span {
+    font-family: "Inria Sans", sans-serif;
+    font-size: 15px;
+    font-weight: 100;
+    color: var(--color-3);
+    margin-bottom: 2px;
+}
+
+nav {
+    width: 350px;
+    display: flex;
+    justify-content: space-between;
+}
+
+nav a {
+    font-family: "Arial Sans", sans-serif;
+    padding: 5px;
+    font-weight: 100;
+    font-size: 20px;
+    position: relative;
+    text-decoration: none;
+}
+
+nav a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    width: 0%;
+    height: 2px;
+    background-color: var(--color-2);
+    transition: width 0.3s ease;
+}
+
+nav a.active {
+    color: var(--color-2);
+}
+
+nav a.active::after {
+    width: 100%;
+}
+
+/* Main */
+
+/* Footer */
+
+footer {
+    width: 100%;
+    font-family: serif;
+}
+
+.number-conselhos {
+    background-color: var(--color-5);
+    color: var(--color-9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 120px;
+    position: relative;
+}
+
+.white-line {
+    text-align: center;
+    position: relative;
+    height: auto;
+    width: 100px;
+    border-right: white;
+    border-right: white;
+}
+
+
+
+.white-line::before {
+    right: 100%;
+    margin-right: 20px;
+}
+
+.white-line::after {
+    left: 100%;
+    margin-left: 20px;
+}
+
+#number {
+    display: block;
+    font-size: 40px;
+    color: #e0b15c;
+}
+
+.white-line span:last-child {
+    display: block;
+    font-style: italic;
+    color: #d6c5a3;
+}
+
+.rodape {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 40px;
+    font-size: 14px;
+}
+
+footer a {
+    color: var(--color-1);
+    text-decoration: none;
+}
+
+.motivation {
+    font-weight: bold;
+    color: var(--color-2);
+}
