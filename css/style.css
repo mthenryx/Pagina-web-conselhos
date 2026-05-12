@@ -163,6 +163,81 @@ i span {
     font-family: "Libre Bodoni", sans-serif;
     font-weight: bold;
     font-size: 16px;
+    max-width: 300px;
+}
+
+.topico {
+    font-family: "Inria Sans", sans-serif;
+    color: #8d8d8d;
+    font-size: 16px;
+}
+
+h2 {
+    font-family: "Inria Serif", sans-serif;
+    font-weight: bold;
+    font-size: 30px;
+}
+
+.pesquisa {
+    font-size: 17px;
+    font-family: "Inria Serif", sans-serif;
+    font-weight: bold;
+    color: #8d8d8d;
+}
+
+.quadro-sombra {
+    height: 80px;
+    width: 600px;
+    background-color: var(--color-8);
+    margin-bottom: 30px;
+    margin-top: 40px;
+}
+
+.quadro-sombra div {
+    position: relative;
+    height: 80px;
+    width: 600px;
+    background-color: var(--color-11);
+    border: 1px solid var(--color-4);
+    top: -10px;
+    left: -10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.button-verde {
+    background-color: #008456;
+    color: var(--color-11);
+    height: 40px;
+    width: 80px;
+    font-family: "Inria Sans", sans-serif;
+    font-size: 18px;
+    font-weight: 100;
+    border: none;
+}
+
+.button-verde:hover {
+    transition: 0.5s;
+    background-color: #005a3b;
+}
+
+.button-verde:active {
+    transform: translateY(4px);
+}
+
+.tema {
+    height: 40px;
+    width: 70%;
+    font-family: "Inria Serif", sans-serif;
+    font-weight: bold;
+    font-size: 16px;
+    padding-left: 12px; 
+}
+
+.tema::placeholder {
+    color:  #c7c7cc;
 }
 
 /* Footer */
@@ -206,7 +281,7 @@ footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px 20px;  
+    padding: 4vh 20px;  
 }
 
 .referencia {
