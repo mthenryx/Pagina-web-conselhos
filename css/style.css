@@ -53,16 +53,17 @@ nav {
     justify-content: space-between;
 }
 
-nav a {
+nav button {
     font-family: "Arial Sans", sans-serif;
     padding: 5px;
     font-weight: 100;
     font-size: 18px;
     position: relative;
-    text-decoration: none;
+    background-color: transparent;
+    border: none;
 }
 
-nav a::after {
+nav button::after {
     content: "";
     position: absolute;
     left: 0;
@@ -73,11 +74,11 @@ nav a::after {
     transition: width 0.3s ease;
 }
 
-nav a.active {
+nav button.active {
     color: var(--color-2);
 }
 
-nav a.active::after {
+nav button.active::after {
     width: 100%;
 }
 
@@ -86,6 +87,9 @@ nav a.active::after {
 main {
     height: auto;
     width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .container {
@@ -166,6 +170,13 @@ i span {
     max-width: 300px;
 }
 
+/*  Buscar  */
+
+.container-buscar {
+    margin-top: 15vh;
+    margin-bottom: 10vh;
+}
+
 .topico {
     font-family: "Inria Sans", sans-serif;
     color: #8d8d8d;
@@ -176,6 +187,8 @@ h2 {
     font-family: "Inria Serif", sans-serif;
     font-weight: bold;
     font-size: 30px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .pesquisa {
@@ -187,16 +200,16 @@ h2 {
 
 .quadro-sombra {
     height: 80px;
-    width: 600px;
+    width: 700px;
     background-color: var(--color-8);
     margin-bottom: 30px;
-    margin-top: 40px;
+    margin-top: 60px;
 }
 
 .quadro-sombra div {
     position: relative;
     height: 80px;
-    width: 600px;
+    width: 700px;
     background-color: var(--color-11);
     border: 1px solid var(--color-4);
     top: -10px;

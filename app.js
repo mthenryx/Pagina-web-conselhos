@@ -1,7 +1,45 @@
 'use scrict'
 
-//Gera o conselho aleatorio da pagina principal
+const conteudo = document.getElementById("conteudo")
+const conteudoOriginal = conteudo.innerHTML
+
+//Funcao que altera o o efeito dos button do hearder
+function limparHeader(elemento) {
+
+    const buscar = document.getElementById("pag-busca")
+    const aleatorio = document.getElementById("pag-principal")
+    const procurar = document.getElementById("pag-ordem")
+
+    if(elemento == "buscar"){
+        buscar.className = "active"
+        aleatorio.classList.remove("active")
+        procurar.classList.remove("active")
+    }else if(elemento == "aleatorio"){
+        buscar.classList.remove("active")
+        aleatorio.className = "active"
+        procurar.classList.remove("active")
+    }else{
+        buscar.classList.remove("active")
+        aleatorio.classList.remove("active")
+        procurar.className = "active"
+    }
+}
+
+//Gera o conselho aleatorio da página principal
+document.getElementById("pag-principal").addEventListener("click", function() {
+
+    limparHeader("aleatorio")
+
+    const conteudo = document.getElementById("conteudo")
+    conteudo.innerHTML = conteudoOriginal 
+
+    gerarConselhoDiario()
+})
+
 async function gerarConselhoDiario() {
+    const quadro = document.getElementById("quadro-branco")
+    quadro.innerHTML = ""
+
     const conselho = await getDadosConselhosDiario()
     const traduzido = await traduzirTextoPortugues(conselho.slip.advice)
 
@@ -25,38 +63,28 @@ gerarConselhoDiario()
 //Organiza o main para a segunda parte, 
 //onde vai ter a parte de buscar um conselho
 
-// {/* <span class="topico">- Buscar</span>
-// <h2>Encontre um <br>conselho específico</h2>
-// <p class="pesquisa">Pesquise por qualquer palavra ou tema.<br>Que nós te devolvemos um conselho.</p>
-// <div class="quadro-sombra">
-//     <div>
-//         <input type="text" class="tema" id="tema" placeholder="Ex: amigos, tempo, coragem...">
-//         <button class="button-verde" onclick="exibirImgECoselho()">Buscar</button>
-//     </div>
-// </div> */}
-
 document.getElementById("pag-busca").addEventListener("click", function() {
-    const buscar = document.getElementById("pag-busca")
-    buscar.className = "active"
 
-    const aleatorio = document.getElementById("pag-principal")
-    aleatorio.classList.remove("active")
+    limparHeader("buscar")
 
-    const topico     = document.createElement("span")
+    const container     = document.createElement("div")
+    container.className = "container-buscar"
+
+    const topico       = document.createElement("span")
     topico.textContent = "- Buscar"
-    topico.className = "topico" 
+    topico.className   = "topico" 
 
-    const titulo       = document.createElement("h2")
-    titulo.textContent = "Encontre um <br>conselho específico"
+    const titulo     = document.createElement("h2")
+    titulo.innerHTML = "Encontre um <br>conselho específico"
 
     const texto       = document.createElement("p")
     texto.className   = "pesquisa"
-    texto.textContent = "Pesquise por qualquer palavra ou tema.<br>Que nós te devolvemos um conselho."
+    texto.innerHTML   = "Pesquise por qualquer palavra ou tema.<br>Que nós te devolvemos um conselho."
 
     const sombra     = document.createElement("div")
     sombra.className = "quadro-sombra"
 
-    const container = document.createElement("div")
+    const div = document.createElement("div")
 
     const digitar       = document.createElement("input")
     digitar.type        = "text"
@@ -67,16 +95,15 @@ document.getElementById("pag-busca").addEventListener("click", function() {
     const botao       = document.createElement("button")
     botao.textContent = "Buscar"
     botao.className   = "button-verde"
-    botao.onclick     = exibirImgECoselho
-
-    sombra.appendChild(container)
-    container.append(digitar, botao)
+    botao.onclick     = exibirImgECoselho()
 
     const conteudo = document.getElementById("conteudo")
-
     conteudo.innerHTML = ""
 
-    conteudo.getElementById("conteudo").append(topico, titulo, texto, sombra, container, digitar, botao)
+    container.append(topico, titulo, texto, sombra, div)
+    sombra.appendChild(div)
+    div.append(digitar, botao)
+    conteudo.appendChild(container)
 })
 
 function exibirImgECoselho() {
@@ -96,6 +123,9 @@ async function getDadosConselhosTema(tema) {
     const dados = await response.json()
     return dados
 }
+
+//Organiza o main para a terceira parte, 
+//onde vai ter a parte de buscar por ordem o conselho
 
 //Api de tradução do google, mechi em algumas coisas para ele aguentar varias requisições
 function delay(statusCode) {
