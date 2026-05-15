@@ -253,6 +253,26 @@ h2 {
     color:  #c7c7cc;
 }
 
+.container-img-text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    max-width: 700px;
+}
+
+.imgTema {
+    width: 300px;
+    height: auto;
+    border: 5px solid white;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+}
+
+.conselhoTema {
+    font-family: "Inria Sans", sans-serif;
+    font-size: 20px;
+}
+
 /* Footer */
 
 footer {

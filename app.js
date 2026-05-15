@@ -1,37 +1,53 @@
-'use scrict'
+'use strict'
 
 const conteudo = document.getElementById("conteudo")
 const conteudoOriginal = conteudo.innerHTML
 
-//Funcao que altera o o efeito dos button do hearder
+//Funcao de alterar header
 function limparHeader(elemento) {
 
     const buscar = document.getElementById("pag-busca")
     const aleatorio = document.getElementById("pag-principal")
     const procurar = document.getElementById("pag-ordem")
 
-    if(elemento == "buscar"){
+    if (elemento == "buscar") {
         buscar.className = "active"
         aleatorio.classList.remove("active")
         procurar.classList.remove("active")
-    }else if(elemento == "aleatorio"){
+    } else if (elemento == "aleatorio") {
         buscar.classList.remove("active")
         aleatorio.className = "active"
         procurar.classList.remove("active")
-    }else{
+    } else {
         buscar.classList.remove("active")
         aleatorio.classList.remove("active")
         procurar.className = "active"
     }
 }
 
-//Gera o conselho aleatorio da página principal
-document.getElementById("pag-principal").addEventListener("click", function() {
+//Funcao de alterar numero de busca
+function alterarNumeroConselhosBuscados() {
+    const numero = document.getElementById("number")
+
+    if (numero.textContent === "+99") return
+
+    let valor = Number(numero.textContent)
+    valor++
+
+    if (valor > 99) {
+        numero.textContent = "+99"
+    } else {
+        numero.textContent = valor
+    }
+}
+
+//Funcao da pagina principal
+document.getElementById("pag-principal").addEventListener("click", function () {
 
     limparHeader("aleatorio")
 
     const conteudo = document.getElementById("conteudo")
-    conteudo.innerHTML = conteudoOriginal 
+    conteudo.innerHTML = conteudoOriginal
 
     gerarConselhoDiario()
 })
@@ -41,7 +57,7 @@ async function gerarConselhoDiario() {
     quadro.innerHTML = ""
 
     const conselho = await getDadosConselhosDiario()
-    const traduzido = await traduzirTextoPortugues(conselho.slip.advice)
+    const traduzido = await traduzir(conselho.slip.advice, "en")
 
     const frase = document.createElement("p")
     frase.className = "frase"
@@ -60,42 +76,77 @@ async function getDadosConselhosDiario() {
 
 gerarConselhoDiario()
 
-//Organiza o main para a segunda parte, 
-//onde vai ter a parte de buscar um conselho
-
-document.getElementById("pag-busca").addEventListener("click", function() {
+//funcao que cria os elemento do buscar
+document.getElementById("pag-busca").addEventListener("click", function () {
 
     limparHeader("buscar")
 
-    const container     = document.createElement("div")
+    const container = document.createElement("div")
     container.className = "container-buscar"
 
-    const topico       = document.createElement("span")
+    const topico = document.createElement("span")
     topico.textContent = "- Buscar"
-    topico.className   = "topico" 
+    topico.className = "topico"
 
-    const titulo     = document.createElement("h2")
+    const titulo = document.createElement("h2")
     titulo.innerHTML = "Encontre um <br>conselho específico"
 
-    const texto       = document.createElement("p")
-    texto.className   = "pesquisa"
-    texto.innerHTML   = "Pesquise por qualquer palavra ou tema.<br>Que nós te devolvemos um conselho."
+    const texto = document.createElement("p")
+    texto.className = "pesquisa"
+    texto.innerHTML = "Pesquise por qualquer palavra ou tema.<br>Que nós te devolvemos um conselho."
 
-    const sombra     = document.createElement("div")
+    const sombra = document.createElement("div")
     sombra.className = "quadro-sombra"
 
     const div = document.createElement("div")
 
-    const digitar       = document.createElement("input")
-    digitar.type        = "text"
-    digitar.className   = "tema"
-    digitar.id          = "tema"
+    const digitar = document.createElement("input")
+    digitar.type = "text"
+    digitar.className = "tema"
+    digitar.id = "tema"
     digitar.placeholder = "Ex: amigos, tempo, coragem..."
 
-    const botao       = document.createElement("button")
+    const botao = document.createElement("button")
+    botao.id = "buscar"
     botao.textContent = "Buscar"
-    botao.className   = "button-verde"
-    botao.onclick     = exibirImgECoselho()
+    botao.className = "button-verde"
+    botao.addEventListener("click", async function () {
+
+        const tema = document.getElementById("tema").value
+        if (!tema) {
+            return
+        } else {
+
+            const antigo = container.querySelector(".container-img-text")
+            
+            if (antigo) {
+                antigo.remove()
+            }
+
+            const temaTraduzido = await traduzir(tema, "pt")
+
+            const imgTema = await getImgTema(temaTraduzido)
+            const img = document.createElement("img")
+            img.src = `${imgTema}`
+            img.alt = `Img: ${tema}`
+            img.className = "imgTema"
+
+            const dados = await getDadosConselhosTema(temaTraduzido)
+            const conselhoPortugues = await traduzir(dados, "en")
+
+            const frase = document.createElement("p")
+            frase.textContent = conselhoPortugues
+            frase.className = "conselhoTema"
+
+            const ImgText = document.createElement("div")
+            ImgText.className = "container-img-text"
+
+            ImgText.append(img, frase)
+            container.appendChild(ImgText)
+
+            alterarNumeroConselhosBuscados()
+        }
+    })
 
     const conteudo = document.getElementById("conteudo")
     conteudo.innerHTML = ""
@@ -106,74 +157,45 @@ document.getElementById("pag-busca").addEventListener("click", function() {
     conteudo.appendChild(container)
 })
 
-function exibirImgECoselho() {
-
-}
-
+//Funcoes de gerar img e conselho
 async function getImgTema(tema) {
-    const url = `https://api.sourcesplash.com/i/random?q=${tema}`
-    const response = await fetch(url)
-    const dados = await response.json()
-    return dados
+    const key = "OC2gJMRyHyitlh7apfNfnCwZeoQ_WErVs6asYJsFH4w"
+    const url = await fetch(`https://api.unsplash.com/search/photos?query=${tema}&client_id=${key}`)
+    const data = await url.json()
+
+    if (!data.results || data.results.length === 0) {
+        return "https://picsum.photos/300/300"
+    } else {
+        return data.results[0].urls.regular
+    }
 }
 
 async function getDadosConselhosTema(tema) {
     const url = `https://api.adviceslip.com/advice/search/${tema}`
     const response = await fetch(url)
     const dados = await response.json()
-    return dados
+
+    if (!dados.slips) {
+        return dados.message.text
+    } else {
+        return dados.slips[0].advice
+    }
 }
 
-//Organiza o main para a terceira parte, 
-//onde vai ter a parte de buscar por ordem o conselho
+//Funcao de traducao
+async function traduzir(texto, idioma) {
+    const destino = idioma === "pt" ? "en" : "pt"
 
-//Api de tradução do google, mechi em algumas coisas para ele aguentar varias requisições
-function delay(statusCode) {
-    return new Promise(resolve => setTimeout(resolve, statusCode))
+    try {
+        const response = await fetch(
+            `https://api.mymemory.translated.net/get?q=${encodeURIComponent(texto)}&langpair=${idioma}|${destino}`
+        )
+
+        const data = await response.json()
+
+        return data.responseData.translatedText
+
+    } catch {
+        return texto
+    }
 }
-
-async function traduzirTextoIngles(texto) {
-    const response = await fetch(
-        "https://translate.googleapis.com/translate_a/single?client=gtx&sl=pt&tl=en&dt=t&q=" +
-        encodeURIComponent(texto)
-    )
-
-    const data = await response.json()
-
-    return data[0][0][0]
-}
-
-async function traduzirIngles() {
-    const texto = document.getElementById("texto").value
-
-    if (!texto) return
-
-    const traducao = await traduzirTexto(texto)
-
-    document.getElementById("resultado").innerText = traducao
-}
-
-async function traduzirTextoPortugues(texto) {
-    const response = await fetch(
-        "https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=pt&dt=t&q=" +
-        encodeURIComponent(texto)
-    )
-
-    const data = await response.json()
-
-    return data[0][0][0]
-}
-
-async function traduzirPortugues() {
-    const texto = document.getElementById("texto").value
-
-    if (!texto) return
-
-    const traducao = await traduzirTextoPortugues(texto)
-
-    document.getElementById("resultado").innerText = traducao
-
-    await delay(300)
-}
-
-
