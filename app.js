@@ -182,6 +182,14 @@ async function getDadosConselhosTema(tema) {
     }
 }
 
+//funcao que cria os elemento do Por ordem
+document.getElementById("pag-ordem").addEventListener("click", function () {
+
+    limparHeader()
+
+    
+})
+
 //Funcao de traducao
 async function traduzir(texto, idioma) {
     const destino = idioma === "pt" ? "en" : "pt"
