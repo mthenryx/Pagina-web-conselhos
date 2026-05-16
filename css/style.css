@@ -275,29 +275,16 @@ h2 {
 
 /* Ordem */
 
-    /* <span class="topico">- Escolher conselho</span>
-    <h2>Buscar conselho<br>por número</h2>
-    <p class="pesquisa">Cada conselho possui um ID único. Digite o número e recupere<br>exatamente aquele conselho.</p>
-    <div class="quadro-sombra-ordem">
-        <div class="quadro-branco">
-            <div class="preencher">
-                <span>Número do conselho </span>
-                <input type="text" placeholder="Ex: 117">
-                <button>Buscar por N°</button>
-            </div>
-            <hr>
-            <div class="container-frase">
-                <span>O conselho encontrado aparecerá aqui.</span>
-            </div>
-        </div>
-    </div> */
+.container-ordem {
+    padding-top: 100px;
+}
 
 .quadro-sombra-ordem {
     height: 200px;
     width: 700px;
     background-color: var(--color-8);
-    margin-bottom: 30px;
-    margin-top: 60px;
+    margin-bottom: 100px;
+    margin-top: 100px;
 }
 
 .quadro-branco {
@@ -311,17 +298,81 @@ h2 {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 20px;
-}
-
-.preencher {
-    display: flex;
+    gap: 30px;
 }
 
 hr {
     height: 70%;
     width: 1px;
     color: #c7c7c765;
+}
+
+.preencher {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 300px;
+}
+
+.preencher span{
+    font-family: "Inria Sans", sans-serif;
+    color: #727272;
+    font-weight: 100;
+    padding-bottom: 10px;
+}
+
+.preencher input {
+    height: 40px;
+    width: 300px;
+    border: 1px solid #0000001e;
+    background-color: var(--color-11);
+    padding-left: 12px;
+    margin-bottom: 20px;
+}
+
+.preencher input::placeholder {
+    color:  #c7c7cc;
+    font-family: "Inria Serif", sans-serif;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.preencher button {
+    border: none;
+    font-family: "Inria Sans", sans-serif;
+    font-weight: 500;
+    color: var(--color-11);
+    background-color: var(--color-2);
+    font-size: 15px;
+    height: 40px;
+    width: 100px;
+}
+
+.preencher button:hover {
+    transition: 0.5s;
+    background-color: #97571e;
+}
+
+.container-frase {
+    width: 300px;
+    height: 150px;
+    padding-top: 25px;
+}
+
+.container-frase span {
+    font-family: "Inria Serif", sans-serif;
+    color: #727272;
+    font-weight: bold;
+}
+
+.imgTemaOrdem {
+    position: relative;
+    top: -50px;
+    left: 150px;
+    width: 400px;
+    height: auto;
+    border: 5px solid white;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
 }
 
 /* Footer */

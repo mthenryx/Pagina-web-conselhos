@@ -187,8 +187,103 @@ document.getElementById("pag-ordem").addEventListener("click", function () {
 
     limparHeader()
 
-    
+    const topico = document.createElement("span")
+    topico.className = "topico"
+    topico.textContent = "- Escolher conselho"
+
+    const h2 = document.createElement("h2")
+    h2.innerHTML = "Buscar conselho<br>por número"
+
+    const p = document.createElement("p")
+    p.innerHTML = "Cada conselho possui um ID único. Digite o número e recupere<br>exatamente aquele conselho."
+    p.className = "pesquisa"
+
+    const quadroSombra = document.createElement("div")
+    quadroSombra.className = "quadro-sombra-ordem"
+
+    const quadroBranco = document.createElement("div")
+    quadroBranco.className = "quadro-branco"
+
+    const divPreenchimento = document.createElement("div")
+    divPreenchimento.className = "preencher"
+
+    const numeroConselho = document.createElement("span")
+    numeroConselho.textContent = "Número do conselho"
+
+    const input = document.createElement("input")
+    input.type = "text"
+    input.id = "tema"
+    input.placeholder = "Ex: 117"
+
+    const hr = document.createElement("hr")
+
+    const divFrase = document.createElement("div")
+    divFrase.className = "container-frase"
+
+    const frase = document.createElement("span")
+    frase.textContent = "O conselho encontrado aparecerá aqui."
+
+    const containerOrdem = document.createElement("div")
+    containerOrdem.className = "container-ordem"
+
+    const conteudo = document.getElementById("conteudo")
+    conteudo.innerHTML = ""
+
+    const botao = document.createElement("button")
+    botao.textContent = "Buscar por N°"
+    botao.addEventListener("click", async function () {
+
+        const tema = document.getElementById("tema").value
+
+        const imgAntiga = containerOrdem.querySelector(".imgTemaOrdem")
+
+        if (imgAntiga) {
+            imgAntiga.remove()
+        }
+
+        if (!tema) {
+            return
+        } else if(isNaN(tema)) {
+            return
+        } else {
+            const conselho = await getBuscarConselhoID(Number(tema))
+
+            const imgTema = await getImgTema(conselho)
+
+            const traducao = await traduzir(conselho, "en")
+
+            const img = document.createElement("img")
+            img.src = imgTema
+            img.className = "imgTemaOrdem"
+            img.alt = `Imagem sobre: ${traducao}`
+            frase.textContent = traducao
+
+            containerOrdem.append(img)
+
+            alterarNumeroConselhosBuscados()
+        }
+    })
+
+    conteudo.appendChild(containerOrdem)
+    containerOrdem.append(topico, h2, p, quadroSombra)
+    quadroSombra.appendChild(quadroBranco)
+    quadroBranco.append(divPreenchimento, hr, divFrase)
+    divPreenchimento.append(numeroConselho, input, botao)
+    divFrase.appendChild(frase)
 })
+
+//Funcoes de buscar conbselho pelo ID 
+async function getBuscarConselhoID(numero) {
+    const url = `https://api.adviceslip.com/advice/${numero}`
+    const response = await fetch(url)
+    const dados = await response.json()
+
+    if (!dados.slip) {
+        return dados.message.text
+    } else {
+        return dados.slip.advice
+    }
+}
 
 //Funcao de traducao
 async function traduzir(texto, idioma) {
